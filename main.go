@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/joho/godotenv"
 	"github.com/shomali11/slacker"
 	"log"
 	"os"
@@ -21,8 +22,11 @@ func printCommandEvents(analyticsChannel <-chan *slacker.CommandEvent) {
 }
 
 func main() {
-	_ = os.Setenv("SLACK_BOT_TOKEN", "xoxb-3665573794772-3688446187175-pSC63gT1pJQK2ZjgNsehDXY6")
-	_ = os.Setenv("SLACK_APP_TOKEN", "xapp-1-A03LNU22A11-3688419745703-d64816665cd0cc0f21b31c4c17dcce62399b72b0558017e1991b27d719c9998e")
+
+	envErr := godotenv.Load(".env")
+	if envErr != nil {
+		log.Fatalln("Problem in loading env file")
+	}
 
 	bot := slacker.NewClient(os.Getenv("SLACK_BOT_TOKEN"), os.Getenv("SLACK_APP_TOKEN"))
 
